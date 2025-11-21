@@ -30,3 +30,4 @@ class database
         return self::$pdo;
     }
 }
+
