@@ -17,7 +17,7 @@ class database
             $pass = 'npg_wlI1toD2AsnG';
             $port = '5432';
 
-            $dsn = "pgsql:host={$host};port={$port};dbname={$db};sslmode=require";
+           $dsn = "pgsql:host={$host};port={$port};dbname={$db};sslmode=require;options=endpoint=ep-royal-cake-a4tu0vrx";
 
             try {
                 self::$pdo = new PDO($dsn, $user, $pass);
