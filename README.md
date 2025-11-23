@@ -32,5 +32,4 @@ Junto a isso, a interface do usuário foi criada com HTML, CSS e JavaScript puro
     curl -X POST http://localhost:8000/calcular_frete \
     -H "Content-Type: application/json" \
     -d '{"cep": "13165176", "peso": 2.5}'
-    -->
     ```
