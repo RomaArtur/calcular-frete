@@ -4,9 +4,7 @@ Projeto desenvolvido como teste técnico para demonstrar competências em arquit
 
 O núcleo da aplicação reside na estrutura de pastas src, desenvolvida com PHP puro. Para este desafio, optei por não utilizar frameworks robustos como Laravel, a fim de focar na lógica e arquitetura do código.
 
-Quanto aos dados, utilizei o PostgreSQL hospedado na nuvem (NeonDB), onde utilizei PDO para consultas seguras.
-
-Junto a isso, a interface do usuário foi criada com HTML, CSS e JavaScript puro, optei por desenvolver algo simples e funcional para uma experiência mais agrádavel. A lógica de cálculo cruza faixas de CEP e peso para determinar o valor e prazo de entrega. Todo o desenvolvimento foi guiado por IA atuando como tutora, focando no diagnóstico de erros complexos de ambiente e na compreensão profunda da arquitetura, garantindo que cada linha de código fosse escrita e validada por mim.
+Quanto aos dados, utilizei o PostgreSQL hospedado na nuvem (NeonDB), onde utilizei PDO para consultas seguras. A lógica de cálculo cruza faixas de CEP e peso para determinar o valor e prazo de entrega. Todo o desenvolvimento foi guiado por IA atuando como tutora, focando no diagnóstico de erros complexos de ambiente e na compreensão profunda da arquitetura, garantindo que cada linha de código fosse escrita e validada por mim.
 
 ## Tecnologias Utilizadas
 
