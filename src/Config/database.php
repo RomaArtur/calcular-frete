@@ -1,6 +1,11 @@
 <?php
 
-class database
+namespace App\Config;
+
+use PDO;
+use PDOException;
+
+class Database 
 {
     private static $pdo = null;
 
@@ -17,17 +22,26 @@ class database
             $pass = 'npg_wlI1toD2AsnG';
             $port = '5432';
 
-           $dsn = "pgsql:host={$host};port={$port};dbname={$db};sslmode=require;options=endpoint=ep-royal-cake-a4tu0vrx";
+            $endpoint_id = 'ep-royal-cake-a4tu0vrx';
+
+            $dsn = "pgsql:host={$host};port={$port};dbname={$db};sslmode=require;options=endpoint={$endpoint_id}";
 
             try {
                 self::$pdo = new PDO($dsn, $user, $pass);
+                
                 self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                self::$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+                
             } catch (PDOException $e) {
-                die("ERRO: Falha ao conectar no PostgreSQL" . $e->getMessage());
+
+                header('Content-Type: application/json');
+                http_response_code(500);
+                echo json_encode(["erro_critico" => "Falha ao conectar no PostgreSQL: " . $e->getMessage()]);
+                exit;
             }
         }
 
         return self::$pdo;
     }
 }
-

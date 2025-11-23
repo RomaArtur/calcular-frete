@@ -1,11 +1,28 @@
 <?php
 
-require_once 'src/config/database.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-try {
-    $pdo = database::getConnection();
-    echo "Conexão bem-sucedida.";
-} catch (Exception $e) {
-    echo "Erro ao conectar ao banco de dados: " . $e->getMessage();
+use App\Controllers\FreteController;
+use App\Utils\Response;
+
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: POST");
+
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$method = $_SERVER['REQUEST_METHOD'];
+
+if ($method === 'GET' && $uri === '/') {
+    echo json_encode(["status" => "API Online 🚀", "uso" => "Faça um POST em /calcular_frete"]);
+    exit;
 }
-?>
+
+if ($method === 'POST' && ($uri === '/calcular_frete' || $uri === '/')) {
+    $controller = new FreteController();
+    $controller->calcular();
+} else {
+    if ($method !== 'GET') {
+        http_response_code(404);
+        echo json_encode(['erro' => 'Rota não encontrada']);
+    }
+}
