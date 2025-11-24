@@ -27,7 +27,5 @@ Quanto aos dados, utilizei o PostgreSQL hospedado na nuvem (NeonDB), onde utiliz
      php -S localhost:8000 -t public
     ```
 4.  ```
-    curl -X POST http://localhost:8000/calcular_frete \
-    -H "Content-Type: application/json" \
-    -d '{"cep": "13165176", "peso": 2.5}'
+    Invoke-RestMethod -Method Post -Uri "http://localhost:8000/calcular_frete" -Body '{"cep": "13165176", "peso": 2.5}'
     ```
