@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Frete</title>
+    <style>
+        body { font-family: Arial, sans-serif; color: #f4f4f4; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f4f4f4; margin: 0; }
+        .container { background: #2b2e2f; padding: 30px; border-radius: 8px; width: 350px; text-align: center; }
+        input, button { width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box; }
+        button { background-color: #00cc00; color: white; cursor: pointer; border: none; font-weight: bold; }
+        #resultado { margin-top: 20px; text-align: left; border: 1px solid #eee; padding: 10px; border-radius: 4px; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calcular Frete</h1>
+        
+        <input type="text" id="cepInput" placeholder="CEP (ex: 13165-176)" value="13165-176">
+        <input type="number" id="pesoInput" placeholder="Peso em KG (ex: 2.5)" value="2.5" step="0.1">
+        
+        <button id="calcularBtn">Calcular</button>
+
+        <hr>
+        
+        <div id="status"></div>
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        document.getElementById('calcularBtn').addEventListener('click', async () => {
+            const cep = document.getElementById('cepInput').value;
+            const peso = parseFloat(document.getElementById('pesoInput').value);
+            const resultadoDiv = document.getElementById('resultado');
+            const statusDiv = document.getElementById('status');
+
+            statusDiv.textContent = 'Calculando...';
+            resultadoDiv.textContent = '';
+
+            const payload = {
+                cep: cep,
+                peso: peso
+            };
+
+            try {
+                const response = await fetch('/calcular_frete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload) 
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(`Erro ${response.status}: ${errorData.mensagem || 'Falha no servidor.'}`);
+                }
+
+                const data = await response.json();
+
+                statusDiv.textContent = '';
+                resultadoDiv.textContent = JSON.stringify(data, null, 2); 
+
+            } catch (error) {
+                statusDiv.textContent = 'Erro na Requisição!';
+                resultadoDiv.textContent = error.message;
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html>

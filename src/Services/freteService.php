@@ -5,9 +5,10 @@ namespace App\Services;
 use App\Config\Database;
 use PDO;
 
-class FreteService { 
-
-    public function calcularFrete(string $cep, float $peso): array {
+class FreteService
+{
+    public function calcularFrete(string $cep, float $peso): array
+    {
         $pdo = Database::getConnection();
 
         $sql = "SELECT 
@@ -25,21 +26,26 @@ class FreteService {
         $resultados = $stmt->fetchAll();
 
         if (empty($resultados)) {
-            return []; 
+            return [];
         }
 
         $resposta = [];
 
         foreach ($resultados as $regra) {
-
-            $valorBase = (float)$regra['valor_kg_base'];
-            $valorAdicional = (float)$regra['valor_kg_adicional'];
+            $pesoFloat = (float)$peso;
+            $valorBase1Kg = (float)$regra['valor_kg_base'];
+            $valorAdicionalKg = (float)$regra['valor_kg_adicional'];
             
-            $valorTotal = $valorBase + ($peso * $valorAdicional);
+            if ($pesoFloat <= 1.0) {
+                $valorTotal = $valorBase1Kg;
+            } else {
+                $pesoExcedente = $pesoFloat - 1.0;
+                $valorTotal = $valorBase1Kg + ($pesoExcedente * $valorAdicionalKg);
+            }
 
             $resposta[] = [
                 "transportadora" => $regra['transportadora_nome'],
-                "valor" => number_format($valorTotal, 2, ',', '.'), 
+                "valor" => number_format($valorTotal, 2, ',', '.'),
                 "prazo" => $regra['prazo_entrega'] . " dias"
             ];
         }

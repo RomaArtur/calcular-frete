@@ -13,7 +13,7 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method === 'GET' && $uri === '/') {
-    echo json_encode(["status" => "API Online", "uso" => "Faça um POST em /calcular_frete"]);
+    echo json_encode(["status" => "API Online", "uso" => "Envie uma requisição POST para /calcular_frete com os parâmetros necessários."]);
     exit;
 }
 

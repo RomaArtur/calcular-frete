@@ -21,7 +21,20 @@ class FreteController {
 
         $cep = preg_replace('/[^0-9]/', '', $dados['cep']);
         
+        if (strlen($cep) !== 8) {
+            return Response::json([
+                'erro' => 'CEP inválido',
+                'detalhes' => 'O CEP deve conter 8 números',
+                'recebido' => $dados['cep']
+            ], 400);
+        }
+
         $peso = (float) $dados['peso'];
+
+        if ($peso <= 0) {
+            return Response::json(['erro' => 'O peso deve ser maior que zero'], 400);
+        }
+
 
         try {
             $servico = new FreteService();
